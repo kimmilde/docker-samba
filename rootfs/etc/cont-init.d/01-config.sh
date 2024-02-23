@@ -182,6 +182,9 @@ if [[ "$(yq --output-format=json e '(.. | select(tag == "!!str")) |= envsubst' "
       echo "veto files = /._*/.apdisk/.AppleDouble/.DS_Store/.TemporaryItems/.Trashes/desktop.ini/ehthumbs.db/Network Trash Folder/Temporary Items/Thumbs.db/" >> /etc/samba/smb.conf
       echo "delete veto files = yes" >> /etc/samba/smb.conf
     fi
+    if [[ "$(_jq '.dfs')" != "null" ]] && [[ "$(_jq '.dfs')" = "yes" ]]; then
+      echo "dfs shares = yes" >> /etc/samba/smb.conf
+    fi
     if [[ "$(_jq '.hidefiles')" != "null" ]] && [[ -n "$(_jq '.hidefiles')" ]]; then
       echo "hide files = $(_jq '.hidefiles')" >> /etc/samba/smb.conf
     fi
